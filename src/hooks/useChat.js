@@ -189,6 +189,7 @@ export const useChat = () => {
     isOnline,
     error,
     showCaptureForm,
+    setShowCaptureForm,
     triggerReason,
     triggerCapture,
     sendMessage,

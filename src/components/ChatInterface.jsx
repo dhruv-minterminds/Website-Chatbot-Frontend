@@ -17,20 +17,6 @@ const ChatInterface = ({
     const messagesEndRef = useRef(null);
     const inputRef = useRef(null);
 
-    // Initial welcome message
-    useEffect(() => {
-        if (messages.length === 0 && isOnline) {
-            const welcomeMessage = {
-                id: 'welcome',
-                text: getInitialMessage(),
-                sender: 'bot',
-                timestamp: new Date().toISOString(),
-                isWelcome: true,
-            };
-            // This would be handled by the chat hook
-        }
-    }, [messages.length, isOnline]);
-
     // Extract suggestions from last message
     useEffect(() => {
         if (messages.length > 0) {
@@ -81,23 +67,25 @@ const ChatInterface = ({
     ];
 
     return (
-        <div className="flex flex-col h-screen max-w-4xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
-            {/* Header */}
-            <ChatHeader />
+        // Update the main container
+        <div className="flex flex-col h-screen max-w-4xl mx-auto bg-white md:rounded-2xl md:shadow-2xl overflow-hidden">
 
-            {/* Chat Messages Area */}
-            <div className="flex-1 overflow-y-auto p-4 bg-gradient-to-b from-gray-50 to-white">
+            {/* Chat Messages Area - Update padding for mobile */}
+            <div className="flex-1 overflow-y-auto p-3 md:p-4 bg-gradient-to-b from-gray-50 to-white">
+
+                {/* Update welcome section for mobile */}
                 {messages.length === 0 && (
-                    <div className="text-center py-12">
-                        <div className="w-24 h-24 bg-gradient-to-br from-primary-100 to-accent-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <FaRobot className="w-12 h-12 text-primary-600" />
+                    <div className="text-center py-6 md:py-12">
+                        <div className="w-16 h-16 md:w-24 md:h-24 bg-gradient-to-br from-primary-100 to-accent-100 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
+                            <FaRobot className="w-8 h-8 md:w-12 md:h-12 text-primary-600" />
                         </div>
-                        <h2 className="text-2xl font-bold text-gray-900 mb-2">Welcome to MinterBot! 🤖</h2>
-                        <p className="text-gray-600 mb-8 max-w-md mx-auto">
+                        <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">Welcome to MinterBot! 🤖</h2>
+                        <p className="text-sm md:text-base text-gray-600 mb-6 md:mb-8 max-w-md mx-auto px-2">
                             I'm here to help you learn about Minterminds' services, careers, and training programs. How can I assist you today?
                         </p>
 
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 max-w-lg mx-auto">
+                        {/* Update quick replies grid for mobile */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3 max-w-lg mx-auto px-2">
                             {quickReplies.map((reply, index) => (
                                 <button
                                     key={index}
@@ -105,8 +93,8 @@ const ChatInterface = ({
                                     className="p-3 bg-white border border-gray-200 rounded-xl hover:border-primary-300 hover:bg-primary-50 transition-all duration-200 text-left"
                                 >
                                     <div className="flex items-center gap-2">
-                                        <FaLightbulb className="w-4 h-4 text-accent-500 flex-shrink-0" />
-                                        <span className="text-sm font-medium text-gray-700">{reply}</span>
+                                        <FaLightbulb className="w-3 h-3 md:w-4 md:h-4 text-accent-500 flex-shrink-0" />
+                                        <span className="text-xs md:text-sm font-medium text-gray-700">{reply}</span>
                                     </div>
                                 </button>
                             ))}
@@ -114,28 +102,19 @@ const ChatInterface = ({
                     </div>
                 )}
 
-                {/* Messages */}
-                <div className="space-y-2">
-                    {messages.map((message) => (
-                        <ChatMessage key={message.id} message={message} />
-                    ))}
-
-                    {isLoading && <TypingIndicator />}
-                </div>
-
-                {/* Suggestions */}
+                {/* Update suggestions section */}
                 {suggestions.length > 0 && !isLoading && (
-                    <div className="mt-4 animate-fade-in">
+                    <div className="mt-4 animate-fade-in px-2">
                         <div className="flex items-center gap-2 mb-2">
-                            <FaLightbulb className="w-4 h-4 text-accent-500" />
-                            <span className="text-sm font-medium text-gray-700">Suggested questions:</span>
+                            <FaLightbulb className="w-3 h-3 md:w-4 md:h-4 text-accent-500" />
+                            <span className="text-xs md:text-sm font-medium text-gray-700">Suggested questions:</span>
                         </div>
                         <div className="flex flex-wrap gap-2">
                             {suggestions.map((suggestion, index) => (
                                 <button
                                     key={index}
                                     onClick={() => handleSuggestionClick(suggestion)}
-                                    className="px-4 py-2 bg-white border border-gray-300 rounded-full hover:border-primary-400 hover:bg-primary-50 transition-all duration-200 text-sm"
+                                    className="px-3 py-1.5 md:px-4 md:py-2 bg-white border border-gray-300 rounded-full hover:border-primary-400 hover:bg-primary-50 transition-all duration-200 text-xs md:text-sm"
                                 >
                                     {suggestion}
                                 </button>
@@ -143,21 +122,22 @@ const ChatInterface = ({
                         </div>
                     </div>
                 )}
-
-                <div ref={messagesEndRef} />
             </div>
 
-            {/* Input Area */}
-            <div className="border-t border-gray-200 p-4 bg-white">
+            {/* Input Area - Update for mobile */}
+            <div className="border-t border-gray-200 p-3 md:p-4 bg-white">
+
+                {/* Offline warning */}
                 {!isOnline && (
-                    <div className="mb-3 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-                        <p className="text-yellow-800 text-sm">
+                    <div className="mb-2 md:mb-3 p-2 md:p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                        <p className="text-yellow-800 text-xs md:text-sm">
                             ⚠️ You're currently offline. Messages will be sent when connection is restored.
                         </p>
                     </div>
                 )}
 
-                <form onSubmit={handleSubmit} className="flex items-end gap-3">
+                {/* Form - Stack vertically on small screens */}
+                <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row sm:items-end gap-3">
                     <div className="flex-1 relative">
                         <textarea
                             ref={inputRef}
@@ -165,25 +145,25 @@ const ChatInterface = ({
                             onChange={(e) => setInputText(e.target.value)}
                             onKeyPress={handleKeyPress}
                             placeholder="Type your message here..."
-                            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none resize-none min-h-[56px] max-h-[120px]"
+                            className="w-full px-3 md:px-4 py-2 md:py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none resize-none min-h-[48px] md:min-h-[56px] max-h-[100px] md:max-h-[120px] text-sm md:text-base"
                             rows="1"
                             disabled={isLoading || !isOnline}
                         />
 
-                        <div className="absolute right-3 bottom-3 flex items-center gap-2">
+                        <div className="absolute right-2 bottom-2 md:right-3 md:bottom-3 flex items-center gap-1 md:gap-2">
                             <button
                                 type="button"
                                 className="p-1 text-gray-400 hover:text-gray-600"
                                 title="Attach file"
                             >
-                                <FaImage className="w-5 h-5" />
+                                <FaImage className="w-4 h-4 md:w-5 md:h-5" />
                             </button>
                             <button
                                 type="button"
                                 className="p-1 text-gray-400 hover:text-gray-600"
                                 title="Voice input"
                             >
-                                <FaMicrophone className="w-5 h-5" />
+                                <FaMicrophone className="w-4 h-4 md:w-5 md:h-5" />
                             </button>
                         </div>
                     </div>
@@ -191,16 +171,17 @@ const ChatInterface = ({
                     <button
                         type="submit"
                         disabled={!inputText.trim() || isLoading || !isOnline}
-                        className={`p-3 rounded-xl flex-shrink-0 ${inputText.trim() && isOnline
+                        className={`p-2 md:p-3 rounded-xl flex-shrink-0 self-end sm:self-auto ${inputText.trim() && isOnline
                             ? 'bg-primary-600 hover:bg-primary-700 text-white'
                             : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                             } transition-colors duration-200`}
                     >
-                        <FaPaperPlane className="w-5 h-5" />
+                        <FaPaperPlane className="w-4 h-4 md:w-5 md:h-5" />
                     </button>
                 </form>
 
-                <div className="mt-3 text-xs text-gray-500 text-center">
+                {/* Footer text */}
+                <div className="mt-2 md:mt-3 text-[10px] md:text-xs text-gray-500 text-center px-2">
                     <p>MinterBot is powered by AI. Responses may vary. Our team reviews conversations periodically.</p>
                 </div>
             </div>

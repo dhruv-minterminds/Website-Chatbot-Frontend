@@ -4,6 +4,7 @@ import { SiGoogleforms } from "react-icons/si";
 import ChatMessage from './ChatMessage';
 import TypingIndicator from './TypingIndicator';
 import CaptureForm from './CaptureForm';
+import { useChat } from '../hooks/useChat';
 
 const FloatingChatbot = ({
     messages = [],
@@ -16,7 +17,7 @@ const FloatingChatbot = ({
     triggerReason = null,
 }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [showCaptureForm, setShowCaptureForm] = useState(false);
+    const { showCaptureForm, setShowCaptureForm } = useChat();
     const [showClearConfirm, setShowClearConfirm] = useState(false);
     const [inputText, setInputText] = useState('');
     const messagesEndRef = useRef(null);
@@ -93,10 +94,9 @@ const FloatingChatbot = ({
     };
 
     const quickReplies = [
-        { text: "Hi! 👋", emoji: "👋" },
-        { text: "What services?", emoji: "💼" },
+        { text: "Services?", emoji: "💼" },
         { text: "Training info", emoji: "🎓" },
-        { text: "Are you hiring?", emoji: "👥" }
+        { text: "Hiring?", emoji: "👥" }
     ];
 
     const handleQuickReply = (text) => {
@@ -108,7 +108,7 @@ const FloatingChatbot = ({
     };
 
     return (
-        <div className="fixed bottom-2 right-6 z-50">
+        <div className="fixed sm:bottom-2 bottom-0 sm:right-6 right-2 z-50">
             {/* Chat Toggle Button */}
             {!isOpen && (
                 <button
@@ -148,7 +148,7 @@ const FloatingChatbot = ({
                             <div className="flex gap-3">
                                 <button
                                     onClick={handleClearChat}
-                                    className="flex-1 bg-red-600 hover:bg-red-700 text-white text-sm font-medium py-2 px-4 rounded-lg transition-colors"
+                                    className="flex-1 bg-red-600 hover:bg-red-700 text-white text-sm font-medium py-2 px-4 rounded-lg transition-colors cursor-pointer"
                                 >
                                     Yes, Clear Chat
                                 </button>
@@ -177,8 +177,7 @@ const FloatingChatbot = ({
             {isOpen && !showCaptureForm && (
                 <div
                     ref={chatContainerRef}
-                    className="absolute bottom-full right-0 mb-4 w-96 bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden animate-slide-up"
-                    style={{ maxHeight: '660px' }}
+                    className="absolute bottom-full right-0 mb-4 sm:w-96 w-88 bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden animate-slide-up"
                 >
                     {/* Chat Header */}
                     <div className="bg-gradient-to-r from-blue-600 to-sky-600 text-white px-6 py-4">
@@ -286,7 +285,7 @@ const FloatingChatbot = ({
                                                 onClick={openCaptureForm}
                                                 className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-md transition-colors cursor-pointer"
                                             >
-                                                Contact Form
+                                                Contact Us
                                             </button>
                                         </div>
                                     </div>
