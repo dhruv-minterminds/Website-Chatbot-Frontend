@@ -164,26 +164,6 @@ function App() {
         )}
       </main>
 
-      {/* Footer - Responsive */}
-      <footer className="bg-white border-t border-gray-200 mt-8 md:mt-16">
-        <div className="max-w-7xl mx-auto px-3 md:px-4 py-3 md:py-4">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-3 md:mb-0">
-              <p className="text-gray-600 text-xs md:text-sm text-center md:text-left">
-                © {new Date().getFullYear()} Minterminds. All rights reserved.
-              </p>
-            </div>
-
-            <div className="flex flex-wrap justify-center gap-3 md:gap-6 text-xs md:text-sm text-gray-600">
-              <a href="#" className="hover:text-blue-600">Privacy Policy</a>
-              <a href="#" className="hover:text-blue-600">Terms of Service</a>
-              <a href="#" className="hover:text-blue-600">Cookie Policy</a>
-              <a href="#" className="hover:text-blue-600">Contact</a>
-            </div>
-          </div>
-        </div>
-      </footer>
-
       {/* Floating Chatbot - Make sure it has responsive props */}
       <FloatingChatbot
         messages={messages}
